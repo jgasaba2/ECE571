@@ -8,9 +8,10 @@ module martian_days (
 // Continuous assignments
     // D28: True for even months OR month 23 in leap year
     //assign D28 = ~M[0] | ((M == 5'd23) & LY);
-    assign D28 = ~M0 & (M4 & ~M3 & M2 & M1 & ~M0 & LY);
+    assign D28 = ~M[0] & (M[4] & ~M[3] & M[2] & M[1] & ~M[0] & LY);
     // D27: Complement of D28
-    assign D27 = M0 & (~M4 & M3 & ~M2 & ~M1 & ~M0 & ~LY);
+   assign D27 = M[0] & (~M[4] & M[3] & ~M[2] & ~M[1] & ~M[0] & ~LY);
     //D27 = ~D28;
 
 endmodule
+
