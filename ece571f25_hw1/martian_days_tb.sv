@@ -11,7 +11,7 @@ module martian_days_tb;
 initial begin
     integer m; // loop variable for month
     // simple waveform-oriented sweep: months 0..23, LY=0 then LY=1
-    for (m = 0; m < 24; m = m + 1) begin
+    for (int m = 0; m < 24; m = m + 1) begin
         M = m;
         LY = 0; #10;
         $display("Month=%0d, LY=%0d => D27=%0d, D28=%0d", M, LY, D27, D28);
@@ -22,6 +22,7 @@ initial begin
     $finish;
 end
 endmodule
+
 
 
 
