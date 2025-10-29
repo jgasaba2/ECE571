@@ -18,31 +18,29 @@ module tb_fourbitALU;
   initial begin
     $display("Time | Opcode | a    | b    | Result | Expected | Overflow | Pass");
 
-    // Sweep opcodes
-    for (int i = 0; i < 5; i++) begin
+    for (logic [2:0] i = 0; i < 5; i++) begin
       op_code = alu_opcode_t'(i);
-      a = 4'b1010;  // Example input
+      a = 4'b1010;
       b = 4'b0011;
 
-      // Compute expected result
       case (op_code)
         ADD: expected = a + b;
         SUB: expected = a - b;
         MUL: expected = a * b;
         AND: expected = a & b;
         DEC: expected = a - 1;
-        default: expected = '0;
+        default: expected = 5'b00000;
       endcase
 
       #10;
 
-      bit overflow = (expected > 4'b1111);
-      $display("%t | %b     | %b | %b | %b   | %b     | %b       | %s",
+      bit overflow = (expected > 5'b01111);
+      $display("%t | %0d     | %b | %b | %b   | %b     | %b       | %s",
                $time, op_code, a, b, result, expected, overflow,
                (result === expected) ? "PASS" : "FAIL");
 
       assert(result === expected)
-        else $error("FAIL: op=%b a=%b b=%b result=%b expected=%b", op_code, a, b, result, expected);
+        else $error("FAIL: op=%0d a=%b b=%b result=%b expected=%b", op_code, a, b, result, expected);
     end
 
     $finish;
