@@ -10,28 +10,32 @@ module fp_alignment (
     output float aligned  
 );
 
-    // exponent difference: how much we need to shift smalln's significand
-    logic [EXPONENT_BITS-1:0] exp_diff;
+import float_pkg::*;
 
-    // significand of smalln including hidden 1: 1.fraction to  FRACTION_BITS+1 bits
-    logic [FRACTION_BITS:0]   small_sig_ext;
-    logic [FRACTION_BITS:0]   shifted_sig;
+module fp_alignment (
+    input  float bign,
+    input  float smalln,
+    output float aligned
+);
 
-    assign exp_diff = bign.exponent - smalln.exponent;
+    logic [EXPONENT_BITS-1:0]  exp_diff;
+    logic [FRACTION_BITS:0]    small_sig_ext;
+    logic [FRACTION_BITS:0]    shifted_sig;
+
+    assign exp_diff     = bign.exponent - smalln.exponent;
     assign small_sig_ext = {1'b1, smalln.fraction};
 
-    // shift right according to exponent difference
     always_comb begin
-        if (exp_diff >= (FRACTION_BITS+1)) begin
+        if (exp_diff >= (FRACTION_BITS+1))
             shifted_sig = '0;
-        end else begin
+        else
             shifted_sig = small_sig_ext >> exp_diff;
-        end
     end
 
-    // build the aligned float: same sign as smalln, exponent as bign, shifted fraction
     assign aligned.sign     = smalln.sign;
     assign aligned.exponent = bign.exponent;
     assign aligned.fraction = shifted_sig[FRACTION_BITS-1:0];
 
 endmodule
+
+
