@@ -7,7 +7,7 @@ float aligned
 );
 
 //instantiation
-fp_allignment DUT (.bign(bign), .smalln(smalln), .aligned(aligned));
+fp_alignment DUT (.bign(bign), .smalln(smalln), .aligned(aligned));
 
 
     initial begin
@@ -63,5 +63,6 @@ fp_allignment DUT (.bign(bign), .smalln(smalln), .aligned(aligned));
                  shortrealfromfpnumber(aligned));
 		$finish; // end simulation
 	end
+
 
 endmodule 
